@@ -1,0 +1,234 @@
+import React from "react";
+
+export default function Footers() {
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <footer
+      style={{
+        backgroundColor: "#1f3b2f",
+        color: "#ffffff",
+        paddingTop: "70px",
+        paddingBottom: "50px",
+      }}
+    >
+      <div className="container">
+
+        {/* TOP GRID */}
+        <div className="row g-5 mb-5">
+
+          {/* ABOUT */}
+          <div className="col-12 col-md-6 col-lg-3">
+            <img
+              src="/assets/images/vita_logo.svg"
+              alt="Vitalimes Logo"
+              style={{ width: "170px", marginBottom: "22px" }}
+            />
+
+            <p style={{ fontSize: "15px", lineHeight: "1.7", opacity: 0.9 }}>
+              At Vitalimes, we bring you the purest and freshest lemon-based
+              health products — from freeze-dried lemon powder to natural lemon oil.
+              We deliver wellness and purity directly to your home.
+            </p>
+          </div>
+
+          {/* EXPLORE */}
+          <div className="col-6 col-md-3 col-lg-2">
+            <h5 className="footer-title">Explore</h5>
+            <ul className="footer-list">
+              <li><a href="/products">Freeze Dried Lemon Powder</a></li>
+            
+              <li><a href="/products">Dried Lemon</a></li>
+              <li><a href="/products">Lemon Oil</a></li>
+              <li><a href="/products">Skin Care</a></li>
+              <li><a href="/products">Metal Cleaning Powder</a></li>
+            </ul>
+          </div>
+
+          {/* USEFUL LINKS */}
+          <div className="col-6 col-md-3 col-lg-2">
+            <h5 className="footer-title">Useful Links</h5>
+            <ul className="footer-list">
+              <li><a href="/about">About Us</a></li>
+              <li><a href="/products">New Arrivals</a></li>
+              <li><a href="/offers">Offers</a></li>
+              <li><a href="/faq">FAQ</a></li>
+              <li><a href="/contact">Contact Us</a></li>
+            </ul>
+          </div>
+
+          {/* CITIES */}
+          <div className="col-6 col-md-3 col-lg-2">
+            <h5 className="footer-title">All Over India</h5>
+            <ul className="footer-list">
+              <li><a href="https://www.amazon.in/Vitalime-Lemon-Seeds-Raw-Powder/dp/B0C29HGK8C/ref=sr_1_4_sspa?crid=1R30PBMWRIMI5&dib=eyJ2IjoiMSJ9.PPWwX1tOieVKMWpBVNqzzx4_HaceDt7Ynxg60JUbkYVLMBPi9N7SyOWgiPePwji4QPVpExMJWenuPuhhf6c8MJr7odtLKW7DVurhVcqEsgF8ko-TFKpMgpPBYisZLtVsw3cDm-TjWiOJx-bYXSVknjmy1wbSSs1j66MFZdCbNNKSJ9rHrNzNgluRk-4_pmOWyV_2eTcjj9RHkNTu8nUeEPmmVkWr5tfF2tqJ867SEF5vYWIGmc6yWJeYH-QLse3Ft4HrhuRV7kwPIxvxEuRYkQESs8FnGkip3WAeDE2sKpo._fsq3jyzvvQeFmPeg99f8xrmW464-RRrHNK8aPa3eZc&dib_tag=se&keywords=lemon+powder+for+drink&qid=1766408498&sprefix=lemon+powder+%2Caps%2C223&sr=8-4-spons&aref=DhI0DxtcUQ&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1">Amazon</a></li>
+              <li><a href="https://www.flipkart.com/vitalimes-lemon-seeds-powder-100-natural-nutrition-drink/p/itm0bcc850bc11cb?pid=ESRHEAXXZKEA6HQA&lid=LSTESRHEAXXZKEA6HQAJ0WXGW&marketplace=FLIPKART&q=vitalime+lemon+powder&store=search.flipkart.com&srno=s_1_5&otracker=search&otracker1=search&fm=Search&iid=6088150d-c885-462b-92f6-8dbf5df4f5c4.ESRHEAXXZKEA6HQA.SEARCH&ppt=sp&ppn=sp&ssid=j6vvm1tb5c0000001766407990908&qH=059e9ea48d4c3751">Flipkart</a></li>
+              <li><a href="https://vitalimes.com/products">Vitalimes</a></li>
+              
+            </ul>
+          </div>
+
+          {/* CONTACT DETAILS */}
+          <div className="col-12 col-md-6 col-lg-3">
+            <h5 className="footer-title">Contact Details</h5>
+
+            <p className="footer-text">
+              VITALIME AGROTECH PRIVATE LIMITED <br />
+              Kovilpatti – 628503
+            </p>
+
+            <p className="footer-text">Phone: +91-9042417179</p>
+            <p className="footer-text">Email: contact@vitalimes.com</p>
+
+            {/* WHATSAPP CONTACT */}
+            <p className="footer-text d-flex align-items-center gap-2">
+              <i
+                className="bi bi-whatsapp"
+                style={{ color: "#25D366", fontSize: "18px" }}
+              ></i>
+              <a
+                href="https://wa.me/918072812904"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "#d9e8db", textDecoration: "none" }}
+              >
+                +91 80728 12904
+              </a>
+            </p>
+
+            {/* SUBSCRIBE */}
+            <div className="d-flex mt-3">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="form-control"
+                style={{
+                  borderRadius: "10px",
+                  height: "45px",
+                  maxWidth: "240px",
+                }}
+              />
+              <button
+                className="btn btn-light ms-2"
+                style={{
+                  height: "45px",
+                  borderRadius: "10px",
+                  padding: "0 18px",
+                  fontWeight: "bold",
+                }}
+              >
+                →
+              </button>
+            </div>
+
+            {/* SOCIAL ICONS */}
+            <div className="d-flex gap-3 mt-4">
+              <a className="social-btn" href="https://facebook.com">
+                <i className="bi bi-facebook"></i>
+              </a>
+              <a className="social-btn" href="https://instagram.com">
+                <i className="bi bi-instagram"></i>
+              </a>
+              <a className="social-btn" href="https://youtube.com">
+                <i className="bi bi-youtube"></i>
+              </a>
+              <a className="social-btn" href="https://linkedin.com">
+                <i className="bi bi-linkedin"></i>
+              </a>
+              <a
+                className="social-btn whatsapp-btn"
+                href="https://wa.me/918072812904"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
+              >
+                <i className="bi bi-whatsapp"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* BOTTOM */}
+        <div
+          className="text-center mt-5 pt-4"
+          style={{
+            borderTop: "1px solid #3c6a50",
+            opacity: 0.9,
+            fontSize: "15px",
+            paddingTop: "25px",
+          }}
+        >
+          <p style={{ margin: 0 }}>
+            © {currentYear} Vitalimes. All rights reserved.
+          </p>
+          <p style={{ marginTop: "5px" }}>
+            ❤️ Designed & Developed by{" "}
+            <a
+              href="https://www.appconnectsolutions.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "#76ffb3",
+                fontSize: "16px",
+                fontWeight: 800,
+                textDecoration: "none",
+              }}
+            >
+              AppConnect Solutions
+            </a>{" "}
+            ❤️
+          </p>
+        </div>
+      </div>
+
+      {/* CSS */}
+      <style>{`
+        .footer-title {
+          font-size: 18px;
+          font-weight: 800;
+          margin-bottom: 18px;
+        }
+        .footer-list li {
+          margin-bottom: 10px;
+        }
+        .footer-list li a {
+          color: #d9e8db;
+          font-size: 14px;
+          text-decoration: none;
+        }
+        .footer-list li a:hover {
+          color: #ffffff;
+        }
+        .footer-text {
+          opacity: 0.9;
+          font-size: 15px;
+          line-height: 1.6;
+        }
+        .social-btn {
+          width: 42px;
+          height: 42px;
+          border-radius: 50%;
+          border: 1px solid #ffffff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 18px;
+          color: #ffffff;
+          transition: 0.3s ease;
+        }
+        .social-btn:hover {
+          background: #ffffff;
+          color: #1f3b2f;
+        }
+        .whatsapp-btn {
+          border-color: #25D366;
+          color: #25D366;
+        }
+        .whatsapp-btn:hover {
+          background: #25D366;
+          color: #ffffff;
+        }
+      `}</style>
+    </footer>
+  );
+}
