@@ -1,20 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
+import axios from "axios";
+
 
 export default function ShopByCategory() {
   const base =
     typeof process !== "undefined" && process.env && process.env.PUBLIC_URL
       ? process.env.PUBLIC_URL
       : "";
+const [categories, setCategories] = useState([]);
+useEffect(() => {
+  const fetchCategories = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/categories");
+      console.log("Categories from API:", res.data); // debug
 
-  const categories = [
-  { title: "Lemon Powder", img: "https://appconnect.cloud/uploads/lemon_powder.png", link: "/products" },
-  { title: "Black Lemon", img: "https://appconnect.cloud/uploads/Black_lemon_dry.png", link: "/products" },
-  { title: "Lemon Seed Powder", img: "https://appconnect.cloud/uploads/Lemon_seed_powder.png", link: "/products" },
-  { title: "Lemon Seed Oil", img: "https://appconnect.cloud/uploads/seed_oil.png", link: "/products" },
-  { title: "Lemon Essential Oil", img: "https://appconnect.cloud/uploads/essential_oil.png", link: "/products" },
-  { title: "Black Lemon Powder", img: "https://appconnect.cloud/uploads/Black_lemon_powder.png", link: "/products" }
-];
+      setCategories(res.data); // remove filter for now
+    } catch (err) {
+      console.error("Error fetching categories:", err);
+    }
+  };
+
+  fetchCategories();
+}, []);
+
+
 
   return (
     <section style={{ padding: "2rem 0", background: "#fdfdfd" }}>
@@ -90,16 +100,23 @@ export default function ShopByCategory() {
         `}</style>
 
         <div className="category-grid">
-          {categories.map((cat, i) => (
-            <a href={cat.link} key={i} className="category-card">
-              <div
-                className="category-bg"
-                style={{ backgroundImage: `url(${base}${cat.img})` }}
-              ></div>
+        {categories.map((cat) => (
+  <a
+    href={`/products?category=${cat.id}`}
+    key={cat.id}
+    className="category-card"
+  >
+    <div
+      className="category-bg"
+      style={{
+        backgroundImage: `url(http://localhost:5000/uploads/${cat.image_url})`,
+      }}
+    ></div>
 
-              <div className="category-title">{cat.title}</div>
-            </a>
-          ))}
+    <div className="category-title">{cat.category_name}</div>
+  </a>
+))}
+
         </div>
       </Container>
     </section>

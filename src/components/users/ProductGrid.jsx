@@ -72,9 +72,9 @@ export default function ProductGrid() {
                     name: product.title,
                     price: firstVariant?.sale_price || firstVariant?.price || 0,
                     rating: 5,
-                    imageFront: `${API_URL}/uploads/${product.image1}`,
-                    imageMiddle: `${API_URL}/uploads/${product.image2 || product.image1}`,
-                    imageBack: `${API_URL}/uploads/${product.image3 || product.image1}`,
+                    imageFront: `${API_URL}/uploads/products/${product.image1}`,
+                    imageMiddle: `${API_URL}/uploads/products/${product.image2 || product.image1}`,
+                    imageBack: `${API_URL}/uploads/products/${product.image3 || product.image1}`,
                   }}
                   apiUrl={API_URL}
                 />

@@ -55,13 +55,16 @@ export default function AllProducts() {
               >
                 <div className="product-card" onClick={() => navigate(`/product/${product.id}`)}>
                   <div className="product-img-container">
-                    <img src={`${API_URL}/uploads/${product.image1}`} className="main-img" />
+                   <img
+  src={`${API_URL}/uploads/products/${product.image1}`} 
+   className="main-img" 
+ />
                     <img
-                      src={`${API_URL}/uploads/${product.image2 || product.image1}`}
+                      src={ `${API_URL}/uploads/products/${product.image2 || product.image1}`}
                       className="hover-1"
                     />
                     <img
-                      src={`${API_URL}/uploads/${product.image3 || product.image1}`}
+                      src={`${API_URL}/uploads/products/${product.image3 || product.image1}`}
                       className="hover-2"
                     />
                   </div>

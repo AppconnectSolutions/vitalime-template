@@ -1,5 +1,7 @@
 // src/components/Recipes.jsx
 import React from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -8,16 +10,21 @@ export default function Recipes() {
     typeof process !== "undefined" && process.env && process.env.PUBLIC_URL
       ? process.env.PUBLIC_URL
       : "";
+const [recipes, setRecipes] = useState([]);
+useEffect(() => {
+  const fetchRecipes = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/recipes");
+      setRecipes(res.data);
+    } catch (err) {
+      console.error("Error fetching recipes:", err);
+    }
+  };
 
-  const recipes = [
-    { img: `/assets/images/recepies/lemon_rice.png`, title: "Lemon Rice", description: "A flavorful and tangy rice dish", href: "#!" },
-    { img: `/assets/images/recepies/cake.png`, title: "Fresh Juice", description: "A soft and moist cake with a light, refreshing lemon flavor", href: "#!" },
-    { img: `/assets/images/recepies/lemon_tea.png`, title: "Lemon Tea", description: "A healthy, balanced tea", href: "#!" },
-    { img: `/assets/images/recepies/food.png`, title: "Healthy Food", description: "A special dish made with organic oil", href: "#!" },
-    // { img: `/assets/images/chutney.png`, title: "Chutney", description: "Spicy and tangy chutney", href: "#!" },
-    // { img: `/assets/images/recepies/lemon_juice.png`, title: "Fresh Juice", description: "Pure fresh lemon juice", href: "#!" },
-    
-  ];
+  fetchRecipes();
+}, []);
+
+
 
   return (
     <section style={{ padding: "2rem 0", background: "#f8f8f8" }}>
@@ -47,8 +54,7 @@ export default function Recipes() {
                 }}
                 className="recipe-card"
               >
-                <Card.Img
-                  src={`${base}${recipe.img}`}
+               <Card.Img src={`http://localhost:5000${recipe.image_url}`} 
                   style={{
                     height: "320px",
                     width: "100%",

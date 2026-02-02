@@ -1,14 +1,35 @@
-import React, { useRef, useEffect } from "react";
+
+
+import React, { useRef, useEffect, useState } from "react";
+import axios from "axios";
 
 export default function DailyBestSells() {
-  const base =
-    typeof process !== "undefined" && process.env && process.env.PUBLIC_URL
-      ? process.env.PUBLIC_URL
-      : "";
-
   const sliderRef = useRef(null);
 
-  // AUTO SLIDER
+  const [hero, setHero] = useState(null);
+  const [products, setProducts] = useState([]);
+
+  // FETCH DATA
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const heroRes = await axios.get(
+          "http://localhost:5000/api/daily-best/hero"
+        );
+        setHero(heroRes.data);
+
+        const prodRes = await axios.get(
+          "http://localhost:5000/api/daily-best/products"
+        );
+        setProducts(prodRes.data);
+      } catch (err) {
+        console.error("Error fetching daily best sells:", err);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // AUTO SLIDE
   useEffect(() => {
     const interval = setInterval(() => {
       scrollRight();
@@ -18,10 +39,13 @@ export default function DailyBestSells() {
   }, []);
 
   const scrollLeft = () => {
+    if (!sliderRef.current) return;
     sliderRef.current.scrollBy({ left: -350, behavior: "smooth" });
   };
 
   const scrollRight = () => {
+    if (!sliderRef.current) return;
+
     sliderRef.current.scrollBy({ left: 350, behavior: "smooth" });
 
     if (
@@ -32,92 +56,31 @@ export default function DailyBestSells() {
     }
   };
 
-  const products = [
-    {
-      img: `${base}/assets/new/essential_oil.png`,
-      title: "Lemon Essential Oil",
-      description: [
-        "100% pure lemon essential oil for skin and hair care",
-        "✔ Natural astringent (oil control)",
-        "✔ Anti-bacterial, anti-fungal",
-        "✔ Skin whitening, pigmentation reduction",
-        "✔ Anti-dandruff",
-        "✔ Fresh fragrance",
-      ],
-      rating: 4.5,
-    },
-
-    {
-      img: `${base}/assets/new/lemon_powder.png`,
-      title: "Lemon Powder Drink",
-      description: [
-        "A refreshing lemon powder drink",
-        "✔ Long shelf life",
-        "✔ Strong natural flavour",
-        "✔ Easy storage and transport",
-      ],
-      rating: 4.5,
-    },
-
-    {
-      img: "https://appconnect.cloud/uploads/Black_lemon_dry.png",
-      title: "Black Lemon",
-      description: [
-        "Dried black lemons for recipes",
-        "✔ High antioxidant",
-        "✔ Natural smoky sourness",
-      ],
-      rating: 4.5,
-    },
-
-    {
-      img: "https://appconnect.cloud/uploads/Lemon_seed_powder.png",
-      title: "Lemon Seed Powder",
-      description: [
-        "A natural source of lemon seed powder",
-        "✔ Natural exfoliant",
-        "✔ Removes dead skin",
-        "✔ Chemical scrub safe alternative",
-      ],
-      rating: 4.5,
-    },
-
-    {
-      img: `${base}/assets/new/Black_lemon_powder.png`,
-      title: "Black Lemon Powder",
-      description: [
-        "Ground black lemon powder for seasoning",
-        "✔ Spice mixes",
-        "✔ Snack seasoning",
-      ],
-      rating: 4.5,
-    },
-
-    {
-      img: `${base}/assets/new/seed_oil.png`,
-      title: "Lemon Seed Oil",
-      description: ["Pure lemon seed oil", "✔ High antioxidant", "✔ Nourishing properties"],
-      rating: 4.5,
-    },
-  ];
-
   const renderStars = (rating) => {
     const full = Math.floor(rating);
     const half = rating - full >= 0.5;
     const stars = [];
 
-    for (let i = 0; i < full; i++)
-      stars.push(<i key={i} className="bi bi-star-fill text-warning"></i>);
-    if (half)
-      stars.push(<i key="half" className="bi bi-star-half text-warning"></i>);
+    for (let i = 0; i < full; i++) {
+      stars.push(
+        <i key={i} className="bi bi-star-fill text-warning"></i>
+      );
+    }
 
-    while (stars.length < 5)
+    if (half) {
+      stars.push(
+        <i key="half" className="bi bi-star-half text-warning"></i>
+      );
+    }
+
+    while (stars.length < 5) {
       stars.push(
         <i
           key={"e" + stars.length}
           className="bi bi-star text-warning opacity-50"
         ></i>
       );
+    }
 
     return stars;
   };
@@ -150,41 +113,46 @@ export default function DailyBestSells() {
 
         {/* SLIDER */}
         <div className="slider" ref={sliderRef}>
-          {/* BANNER FIXED */}
-          <div
-            className="banner-small"
-            style={{
-              backgroundImage: `url(${base}/assets/images/Blacklemon_powder_2.png)`,
-            }}
-          >
-            <h4 className="banner-text">100% Pure Black Lemon Powder</h4>
-            <p className="banner-sub">Organic | Fresh | Premium Quality</p>
+          {/* HERO BANNER */}
+          {hero && (
+            <div
+              className="banner-small"
+              style={{
+                backgroundImage: `url(http://localhost:5000${hero.image_url})`,
+              }}
+            >
+              <h4 className="banner-text">{hero.title}</h4>
+              <p className="banner-sub">{hero.description}</p>
+              <a
+                href="/products"
+                className="btn btn-success btn-sm banner-btn"
+              >
+                {hero.cta_label || "Shop Now"}
+              </a>
+            </div>
+          )}
 
-            <a href="/products" className="btn btn-success btn-sm banner-btn">
-              Shop Now
-            </a>
-          </div>
-
-          {/* PRODUCT CARDS */}
+          {/* PRODUCTS */}
           {products.map((p, idx) => (
             <div className="product-card" key={idx}>
               <div className="product-image-frame">
-                <img src={p.img} alt={p.title} />
+                <img
+                  src={`http://localhost:5000${p.image_url}`}
+                  alt={p.title}
+                />
               </div>
 
               <h6 className="mt-2 fw-bold">{p.title}</h6>
 
-              <ul className="product-description">
-                {p.description.map((benefit, i) => (
-                  <li key={i} className="benefit-item">
-                    {benefit}
-                  </li>
-                ))}
-              </ul>
+              <p className="product-description">{p.description}</p>
 
               <div className="mt-auto text-end">
-                {renderStars(p.rating)}
-                <small className="text-muted">{p.rating}</small>
+                {p.rating && (
+                  <>
+                    {renderStars(p.rating)}
+                    <small className="text-muted">{p.rating}</small>
+                  </>
+                )}
               </div>
 
               <a href="/products" className="btn btn-success btn-sm mt-2">
@@ -195,7 +163,7 @@ export default function DailyBestSells() {
         </div>
       </div>
 
-      {/* CSS FIXES */}
+      {/* CSS (UNCHANGED) */}
       <style>{`
         .slider {
           display: flex;
@@ -223,7 +191,6 @@ export default function DailyBestSells() {
           color: #fff;
         }
 
-        /* FIXED OVERLAY - LIGHTER AT BOTTOM */
         .banner-small::before {
           content: "";
           position: absolute;
@@ -254,7 +221,6 @@ export default function DailyBestSells() {
           z-index: 5;
         }
 
-        /* FIXED SHOP NOW BUTTON VISIBILITY */
         .banner-btn {
           position: relative;
           margin-top: 12px;
@@ -294,14 +260,8 @@ export default function DailyBestSells() {
         }
 
         .product-description {
-          padding: 0;
           margin-top: 10px;
-          list-style: none;
-        }
-
-        .benefit-item {
-          margin-bottom: 4px;
-          font-size: .9rem;
+          font-size: 0.9rem;
         }
       `}</style>
     </section>

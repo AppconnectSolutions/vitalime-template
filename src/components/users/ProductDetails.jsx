@@ -31,15 +31,15 @@ export default function ProductDetails() {
       const { data } = await axios.get(`${API_URL}/api/products/${id}`);
       const p = data.product;
       if (!p) return;
+const images = [
+  p.image1 && `${API_URL}/uploads/products/${p.image1}`,
+  p.image2 && `${API_URL}/uploads/products/${p.image2}`,
+  p.image3 && `${API_URL}/uploads/products/${p.image3}`,
+  p.image4 && `${API_URL}/uploads/products/${p.image4}`,
+  p.image5 && `${API_URL}/uploads/products/${p.image5}`,
+  p.image6 && `${API_URL}/uploads/products/${p.image6}`,
+].filter(Boolean);
 
-      const images = [
-        p.image1 && `${API_URL}/uploads/${p.image1}`,
-        p.image2 && `${API_URL}/uploads/${p.image2}`,
-        p.image3 && `${API_URL}/uploads/${p.image3}`,
-        p.image4 && `${API_URL}/uploads/${p.image4}`,
-        p.image5 && `${API_URL}/uploads/${p.image5}`,
-        p.image6 && `${API_URL}/uploads/${p.image6}`,
-      ].filter(Boolean);
 
       setProduct({ ...p, images });
       if (p.variants?.length > 0) {
@@ -325,7 +325,7 @@ export default function ProductDetails() {
   .slice(0, 8)
   .map((p) => {
     const firstImg = p.image1
-      ? `${API_URL}/uploads/${p.image1}`
+      ? `${API_URL}/uploads/products/${p.image1}`
       : "https://via.placeholder.com/150";
 
     const productId = p.id || p._id || p.product_id;

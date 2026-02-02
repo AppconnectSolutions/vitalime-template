@@ -13,13 +13,13 @@ export default function ProductCard({ product, apiUrl }) {
 
   // ---------------------- IMAGE HANDLING ----------------------
   const imageFront = product.image_url
-    ? `${apiUrl}/uploads/${product.image_url}`
+    ? `${apiUrl}/uploads/products/${product.image_url}`
     : product.imageFront || "/assets/images/placeholder.png";
   const imageMiddle = product.image_url2
-    ? `${apiUrl}/uploads/${product.image_url2}`
+    ? `${apiUrl}/uploads/products/${product.image_url2}`
     : product.imageMiddle || imageFront;
   const imageBack = product.image_url3
-    ? `${apiUrl}/uploads/${product.image_url3}`
+    ? `${apiUrl}/uploads/products/${product.image_url3}`
     : product.imageBack || imageFront;
 
   // Hover effect images

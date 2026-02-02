@@ -63,7 +63,8 @@ export default function Featured() {
             <div key={product.id}>
               <div
                 className="category-card"
-                style={{ backgroundImage: `url(${API_URL}/uploads/${product.image1})` }}
+                style={{ backgroundImage: `url(${API_URL}/uploads/products/${product.image1})`
+ }}
               >
                 <div className="category-title">{product.title}</div>
               </div>

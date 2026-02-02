@@ -5,12 +5,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 export default function FeedbackCarousel() {
   const [feedbacks, setFeedbacks] = useState([]);
   const [index, setIndex] = useState(0);
-  const itemsPerSlide = 2; // 2 per row
+  const itemsPerSlide = 2; // number of feedbacks per slide
 
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+  // Helper function to get full product image URL or fallback
+  const getProductImage = (filename) =>
+    filename ? `${API_URL}/uploads/products/${filename}` : "/placeholder.png";
+
+  // Fetch feedbacks from backend
   useEffect(() => {
     const fetchFeedbacks = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/feedback`);
+        const res = await fetch(`${API_URL}/api/feedback`);
         const data = await res.json();
         if (data.success) setFeedbacks(data.feedbacks);
       } catch (err) {
@@ -20,6 +27,7 @@ export default function FeedbackCarousel() {
     fetchFeedbacks();
   }, []);
 
+  // Carousel navigation
   const next = () => {
     setIndex((prev) =>
       prev + itemsPerSlide >= feedbacks.length ? 0 : prev + itemsPerSlide
@@ -28,10 +36,11 @@ export default function FeedbackCarousel() {
 
   const prev = () => {
     setIndex((prev) =>
-      prev === 0 ? feedbacks.length - itemsPerSlide : prev - itemsPerSlide
+      prev === 0 ? Math.max(feedbacks.length - itemsPerSlide, 0) : prev - itemsPerSlide
     );
   };
 
+  // Auto slide every 5 seconds
   useEffect(() => {
     const timer = setInterval(next, 5000);
     return () => clearInterval(timer);
@@ -65,38 +74,43 @@ export default function FeedbackCarousel() {
 
         {/* Feedback Cards */}
         <div className="row g-4">
-          {visibleItems.map((item, i) => (
-            <div className="col-12 col-lg-6" key={i}>
-              <div className="row g-4 h-100 align-items-center">
-                {/* Product Image */}
-                <div className="col-12 col-md-6">
-                  <div className="bg-white rounded-4 shadow-sm h-100 d-flex align-items-center justify-content-center p-4">
-                   <img
-  src={item.product_image || "/placeholder.png"} // Use backend URL or fallback
-  alt={item.product_name} // Updated to match backend field
-  className="img-fluid"
-  style={{ maxHeight: 260, objectFit: "contain" }}
-/>
-
+          {visibleItems.length > 0 ? (
+            visibleItems.map((item, i) => (
+              <div className="col-12 col-lg-6" key={i}>
+                <div className="row g-4 h-100 align-items-center">
+                  {/* Product Image */}
+                  <div className="col-12 col-md-6">
+                    <div className="bg-white rounded-4 shadow-sm h-100 d-flex align-items-center justify-content-center p-4">
+                      <img
+                        src={getProductImage(item.product_image)}
+                        alt={item.product_name || item.productName || "Product"}
+                        className="img-fluid"
+                        style={{ maxHeight: 260, objectFit: "contain" }}
+                      />
+                    </div>
                   </div>
-                </div>
 
-                {/* Feedback Card */}
-                <div className="col-12 col-md-6">
-                  <div className="bg-white rounded-4 shadow-sm h-100 p-4 d-flex flex-column justify-content-center">
-                    <Quote size={22} className="text-secondary mb-2" />
-                    <h5 className="fw-semibold">{item.productName}</h5>
-                    <p className="text-muted mb-2">{item.message}</p>
-                    <p className="fw-semibold mb-0">— {item.name}</p>
-                    <p className="mb-0">
-                      Rating: {"⭐".repeat(item.rating)}{" "}
-                      {"☆".repeat(5 - item.rating)}
-                    </p>
+                  {/* Feedback Card */}
+                  <div className="col-12 col-md-6">
+                    <div className="bg-white rounded-4 shadow-sm h-100 p-4 d-flex flex-column justify-content-center">
+                      <Quote size={22} className="text-secondary mb-2" />
+                      <h5 className="fw-semibold">
+                        {item.product_name || item.productName || "Product"}
+                      </h5>
+                      <p className="text-muted mb-2">{item.message}</p>
+                      <p className="fw-semibold mb-0">— {item.name}</p>
+                      <p className="mb-0">
+                        Rating: {"⭐".repeat(item.rating || 0)}
+                        {"☆".repeat(5 - (item.rating || 0))}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-muted text-center">No feedbacks available.</p>
+          )}
         </div>
       </div>
     </section>

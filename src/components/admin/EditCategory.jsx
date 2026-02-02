@@ -167,7 +167,7 @@ export default function EditCategory() {
   <button
     type="button"
     className="btn btn-secondary ms-2"
-    onClick={() => navigate("/categories")}
+    onClick={() => navigate("/admin/categories")}
   >
     Cancel
   </button>

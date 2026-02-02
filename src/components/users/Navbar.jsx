@@ -62,13 +62,17 @@ const [carouselIndex, setCarouselIndex] = useState(0);
 
 // Auto-slide every 5 seconds
 useEffect(() => {
+  if (carouselItems.length === 0) return;
+
   const interval = setInterval(() => {
     setCarouselIndex((prev) =>
       prev === carouselItems.length - 1 ? 0 : prev + 1
     );
-  }, 3000); // every 3 seconds
+  }, 3000);
+
   return () => clearInterval(interval);
-}, []);
+}, [carouselItems]);
+
 useEffect(() => {
   fetchOffer();
   fetchNavbar();
@@ -82,12 +86,15 @@ const fetchOffer = async () => {
 
     setOffer(data);
 
-    setCarouselItems([
-      data.welcomeMessage,
-      data.leftArrowLabel,
-      data.rightArrowLabel,
-      data.lemonMessage,
-    ].filter(Boolean));
+ const items = [
+  data.leftArrowLabel,
+  data.welcomeMessage,
+  data.rightArrowLabel,
+].filter(Boolean);
+
+setCarouselItems(items);
+setCarouselIndex(0);
+
   } catch (err) {
     console.error(err);
   }
@@ -198,7 +205,8 @@ const fetchNavbar = async () => {
     </button>
 
     <div className="flex-grow-1 position-relative overflow-hidden" style={{ height: "24px" }}>
-  {carouselItems.map((item, i) => {
+  {carouselItems.length > 0 && carouselItems.map((item, i) => {
+
     const isActive = i === carouselIndex;
     return (
       <div
